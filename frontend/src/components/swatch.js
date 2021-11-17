@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
+// import { useState } from "react";
 import { styles } from "../theme/styles";
 import {
   Line,
-  Resize,
+  // Resize,
   Triangle,
   Rectangle,
   Circle,
@@ -17,6 +18,9 @@ import {
 // import ColourPicker from "./colourPicker";
 // import { download } from "./download";
 
+
+
+
 export default function Swatch({
   toolType,
   setToolType,
@@ -28,12 +32,12 @@ export default function Swatch({
   colorWidth,
   setShapeWidth,
 }) {
-  const [displayStroke, setDisplayStroke] = useState(false);
+  // const [displayStroke, setDisplayStroke] = useState(false);
 
-  const handleClickStroke = () => {
-    setDisplayStroke(!displayStroke);
-    setColorWidth(colorWidth);
-  };
+  // const handleClickStroke = () => {
+  //   setDisplayStroke(!displayStroke);
+  //   setColorWidth(colorWidth);
+  // };
 
   const increaseWidth = () => {
     if (toolType === "brush" || toolType === "eraser") {
