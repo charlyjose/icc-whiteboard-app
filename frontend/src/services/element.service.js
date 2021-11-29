@@ -1,6 +1,6 @@
 import http from "../http-common"
 
-class ElementDataService {
+class ShapeDrawDataService {
     create(data) {
         return http.post("/element", data)
     }
@@ -30,4 +30,4 @@ class ElementDataService {
     }
 }
 
-export default new ElementDataService()
+export default new ShapeDrawDataService()

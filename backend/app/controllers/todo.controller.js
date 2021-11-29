@@ -1,24 +1,20 @@
 const db = require("../models")
 const Todo = db.todo
-const Op = db.Sequelize.Op
 
 exports.create = (req, res) => {
     if (!req.body.title) {
-        res.status(400).send({
+        return res.status(400).send({
             message: "Title cannot be empty"
         })
-        return
     }
 
-    const todo = {
+    const todo = new Todo({
         title: req.body.title,
-        userId: '1',
         description: req.body.description,
-        category: req.body.category,
-        schedule: req.body.schedule
-    }
+        category: req.body.category
+    })
 
-    Todo.create(todo)
+    todo.save(todo)
         .then(data => {
             res.status(200).send(data)
         })
@@ -30,24 +26,17 @@ exports.create = (req, res) => {
 }
 
 exports.findAll = (req, res) => {
-    const searchTerm = req.query.searchTerm
+    const title = req.query.title;
+    var condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};
 
-    var condition = searchTerm ?
-        {
-            [Op.or]: [
-                { title: { [Op.iLike]: `%${searchTerm}%` } },
-                { description: { [Op.iLike]: `%${searchTerm}%` } },
-                { category: { [Op.iLike]: `%${searchTerm}%` } }
-            ]
-        } : null;
-
-    Todo.findAll({ where: condition })
+    Todo.find(condition)
         .then(data => {
-            res.status(200).send(data)
+            res.send(data);
         })
-        .catch(error => {
+        .catch(err => {
             res.status(500).send({
-                message: error.message || "Some error occurred while retrieving todos"
+                message:
+                    err.message || "Some error occurred while retrieving tutorials."
             })
         })
 }
@@ -55,9 +44,13 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id
 
-    Todo.findByPk(id)
+    Todo.findById(id)
         .then(data => {
-            res.status(200).send(data)
+            if (!data) {
+                res.status(404).send({ message: "Not found Tutorial with id" + id })
+            }
+            else
+                res.status(200).send(data)
         })
         .catch(error => {
             res.status(500).send({
@@ -67,26 +60,26 @@ exports.findOne = (req, res) => {
 }
 
 exports.update = (req, res) => {
+    if (!req.body) {
+        return res.status(400).send({
+            message: "Data to update can not be empty!"
+        })
+    }
+
     const id = req.params.id
 
-    Todo.update(req.body, {
-        where: { id: id }
-    })
-        .then(num => {
-            if (num == 1) {
-                res.status(200).send({
-                    message: "Todo updated successfully"
-                })
-            }
-            else {
+    Todo.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+        .then(data => {
+            if (!data) {
                 res.status(404).send({
-                    message: `Cannot update Todo with ID = ${id}. Maybe Todo was not found or req.body was empty.`
+                    message: `Cannot update Tutorial with id=${id}. Maybe Tutorial was not found!`
                 })
             }
+            else res.send({ message: "Tutorial was updated successfully." })
         })
-        .catch(error => {
+        .catch(err => {
             res.status(500).send({
-                message: "Error updating Todo with ID = " + id
+                message: "Error updating Tutorial with id=" + id
             })
         })
 }
@@ -94,41 +87,36 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const id = req.params.id
 
-    Todo.destroy({
-        where: { id: id }
-    })
-        .then(num => {
-            if (num == 1) {
-                res.status(200).send({
-                    message: "Todo deleted successfully"
-                })
-            }
-            else {
+    Todo.findByIdAndRemove(id)
+        .then(data => {
+            if (!data) {
                 res.status(404).send({
-                    message: `Cannot delete Todo with ID = ${id}. Maybe Todo was not found or req.body was empty.`
+                    message: `Cannot delete Tutorial with id=${id}. Maybe Tutorial was not found!`
+                })
+            } else {
+                res.send({
+                    message: "Tutorial was deleted successfully!"
                 })
             }
         })
-        .catch(error => {
+        .catch(err => {
             res.status(500).send({
-                message: "Could not delete Todo with id=" + id
+                message: "Could not delete Tutorial with id=" + id
             })
         })
 }
 
 exports.deleteAll = (req, res) => {
-    Todo.destroy({
-        where: {},
-        truncate: false
-    })
-        .then(nums => {
-            res.status(200).send({
-                message: `${nums} Todo(s) deleted successfully`
+    Todo.deleteMany({})
+        .then(data => {
+            res.send({
+                message: `${data.deletedCount} Tutorials were deleted successfully!`
             })
         })
-        .catch(error => {
+        .catch(err => {
             res.status(500).send({
-                message: error.message || "Some error occurred while removing todo(s)"
+                message:
+                    err.message || "Some error occurred while removing all tutorials."
             })
         })
 }

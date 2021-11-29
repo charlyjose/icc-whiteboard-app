@@ -1,20 +1,14 @@
-module.exports = (sequelize, Sequelize) => {
-    const Todo = sequelize.define("todo", {
-        userId: {
-            type: Sequelize.STRING
-        },
-        title: {
-            type: Sequelize.STRING
-        },
-        description: {
-            type: Sequelize.STRING
-        },
-        category: {
-            type: Sequelize.STRING
-        },
-        schedule: {
-            type: Sequelize.STRING
-        }
-    })
-    return Todo
+module.exports = mongoose => {
+  const Todo = mongoose.model(
+    "draw",
+    mongoose.Schema(
+      {
+        title: String,
+        description: String,
+        published: Boolean
+      },
+      { timestamps: true }
+    )
+  )
+  return Todo
 }
