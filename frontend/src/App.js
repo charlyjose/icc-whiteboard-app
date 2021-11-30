@@ -10,6 +10,8 @@ import Register from "./components/user/register.component";
 import Home from "./components/user/home.component";
 import Profile from "./components/user/profile.component";
 import BoardUser from "./components/user/board-user.component";
+import Whiteboard from './components/whiteboard/whiteboard.component'
+
 // import BoardModerator from "./components/user/board-moderator.component";
 // import BoardAdmin from "./components/user/board-admin.component";
 
@@ -52,7 +54,7 @@ class App extends Component {
       <div>
         <nav className="navbar navbar-expand navbar-dark bg-dark">
           <Link to={"/"} className="navbar-brand">
-            bezKoder
+            Whiteboard App
           </Link>
           <div className="navbar-nav mr-auto">
             <li className="nav-item">
@@ -98,7 +100,15 @@ class App extends Component {
                   LogOut
                 </a>
               </li>
+
+              <li className="nav-item">
+                <Link to={"/whiteboard"} className="nav-link">
+                  Whiteboard
+                </Link>
+              </li>
             </div>
+
+            
           ) : (
             <div className="navbar-nav ml-auto">
               <li className="nav-item">
@@ -125,6 +135,8 @@ class App extends Component {
             <Route path="/user" component={BoardUser} />
             {/* <Route path="/mod" component={BoardModerator} /> */}
             {/* <Route path="/admin" component={BoardAdmin} /> */}
+
+            <Route path="/whiteboard" component={Whiteboard} />
           </Switch>
         </div>
       </div>
