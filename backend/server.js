@@ -22,7 +22,7 @@ db.mongoose
         useUnifiedTopology: true
     })
     .then(() => {
-        console.log("Successfully connect to MongoDB.");
+        console.log("Successfully connected to MongoDB.");
         initial();
     })
     .catch(err => {
@@ -74,7 +74,7 @@ require('./app/routes/newTodo.routes')(app);
 
 
 app.get("/", (req, res) => {
-    res.json({ message: "Welcome to WHITE BOARD Application" })
+    res.json({ message: "Welcome to WHITEBOARD Application" })
 })
 
 const PORT = process.env.PORT || 8080
