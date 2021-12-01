@@ -10,7 +10,8 @@ import Register from "./components/user/register.component";
 import Home from "./components/user/home.component";
 import Profile from "./components/user/profile.component";
 import BoardUser from "./components/user/board-user.component";
-import Whiteboard from './components/whiteboard/whiteboard.component'
+import WhiteboardInitiator from "./components/whiteboard/whiteboard-initiator.component";
+
 
 // import BoardModerator from "./components/user/board-moderator.component";
 // import BoardAdmin from "./components/user/board-admin.component";
@@ -136,7 +137,7 @@ class App extends Component {
             {/* <Route path="/mod" component={BoardModerator} /> */}
             {/* <Route path="/admin" component={BoardAdmin} /> */}
 
-            <Route path="/whiteboard" component={Whiteboard} />
+            <Route path="/whiteboard" component={WhiteboardInitiator} />
           </Switch>
         </div>
       </div>

@@ -2,10 +2,10 @@ import React, { Component } from "react";
 
 import UserService from "../../services/user.service";
 import AuthService from "../../services/auth.service";
+import Whiteboard from "./whiteboard.component";
 
 
-
-export default class BoardUser extends Component {
+export default class WhiteboardInitiator extends Component {
   constructor(props) {
     super(props);
 
@@ -38,17 +38,11 @@ export default class BoardUser extends Component {
   render() {
     return (
       <div className="container">
-        <header className="jumbotron">
-          <h3>{this.state.content}</h3>
-          {console.log(this.state.content)}
-          {console.log(this.state.currentUser)}
-        </header>
         {this.state.currentUser ? (
-          <h3>LOAD</h3>
+          <Whiteboard />
         ) : (
-          <h3>DO NOT LOAD</h3>
+          <h3>DO NOT LOAD: {this.state.content}</h3>
         )}
-
       </div>
     );
   }

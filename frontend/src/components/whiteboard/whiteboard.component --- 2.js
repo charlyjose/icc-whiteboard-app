@@ -12,6 +12,10 @@ import {
 } from "./element";
 
 import ShapeDrawDataService from "../../services/element.service"
+import AuthService from "../../services/auth.service";
+import UserService from "../../services/user.service";
+
+
 
 
 
@@ -33,9 +37,9 @@ function Whiteboard() {
   const [popped, setPopped] = useState(false);
 
 
-  const [test, setTest] = useState(null)
-  const [load, setLoad] = useState(false)
 
+  const [content, setContent] = useState("")
+  const [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser())
 
 
   // DRAWING state
@@ -52,6 +56,24 @@ function Whiteboard() {
 
 
   useEffect(() => {
+    UserService.getUserBoard().then(
+      response => {
+        setContent(response.data)
+      },
+      error => {
+        setContent((error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+          error.message ||
+          error.toString()
+        )
+      }
+    )
+
+
+
+
+
     const canvas = document.getElementById("canvas");
     const context = canvas.getContext("2d");
     context.lineCap = "round";
@@ -101,25 +123,14 @@ function Whiteboard() {
       roughCanvas.draw(roughElement);
     });
 
-
-    if (!load) {
-      async function loadElementDataFromServer() {
-        const res = await ShapeDrawDataService.load()
-        setTest(res.data)
-        setElements((prevState) => [...prevState, res.data]);
-      }
-  
-      loadElementDataFromServer()
-      setLoad(true)
-    }
-
-
-
     return () => {
       context.clearRect(0, 0, canvas.width, canvas.height);
     };
   }, [popped, elements, path, width]);
 
+
+
+  
   const updateElement = (
     index,
     x1,
@@ -158,6 +169,11 @@ function Whiteboard() {
   const sentElementDataToServer = (elements) => {
     try {
       const res = ShapeDrawDataService.create({ elements })
+
+      // dispatch({
+      //   type: CREATE_CATEGORY,
+      //   payload: res.data
+      // })
       return Promise.resolve(res.data)
     }
     catch (error) {
@@ -392,7 +408,10 @@ function Whiteboard() {
   };
 
   return (
-    <div>
+
+    currentUser ? (
+
+      <div className="container">
       <Swatch
         toolType={toolType}
         setToolType={setToolType}
@@ -425,6 +444,16 @@ function Whiteboard() {
         Canvas
       </canvas>
     </div>
+
+    ) : (
+      <div className="container">
+      <header className="jumbotron">
+        <h3>{content}</h3>
+        {console.log(content)}
+        {console.log(currentUser)}
+      </header>
+      </div>
+    )
   );
 }
 

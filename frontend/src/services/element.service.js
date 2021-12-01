@@ -1,13 +1,18 @@
 import http from "../http-common"
+import authHeader from './auth-header';
 
 class ShapeDrawDataService {
     create(data) {
-        return http.post("/element", data)
+        return http.post("/element", data, { headers: authHeader() })
     }
 
-    get(id) {
-        return http.get(`/category/${id}`)
+    load() {
+        return http.get("/element/load", { headers: authHeader() })
     }
+
+
+
+
 
     getAll() {
         return http.get("/category")

@@ -1,23 +1,16 @@
 import React from "react";
 // import { useState } from "react";
-import { styles } from "../theme/styles";
+import { styles } from "../../theme/styles";
 import {
   Line,
-  // Resize,
   Triangle,
   Rectangle,
   Circle,
-  Brush,
-  Pencil,
   Plus,
   Minus,
   Eraser,
-  Reset,
-  // Download,
-} from "../theme/svg";
-// import ColourPicker from "./colourPicker";
-// import { download } from "./download";
-
+  Reset
+} from "../../theme/svg";
 
 
 
@@ -31,13 +24,9 @@ export default function Swatch({
   setPath,
   colorWidth,
   setShapeWidth,
+  setState,
+  boardState
 }) {
-  // const [displayStroke, setDisplayStroke] = useState(false);
-
-  // const handleClickStroke = () => {
-  //   setDisplayStroke(!displayStroke);
-  //   setColorWidth(colorWidth);
-  // };
 
   const increaseWidth = () => {
     if (toolType === "brush" || toolType === "eraser") {
@@ -100,9 +89,24 @@ export default function Swatch({
             title="Line"
             style={styles.righticons}
             onClick={() => {
-              setToolType("line");
-              setWidth(1);
-              setShapeWidth(1);
+              
+              // setToolType("line")
+              setState({
+                toolType: "line"
+              })
+
+
+
+              // setWidth(1)
+              setState({
+                width: 1
+              })
+              
+              // setShapeWidth(1)
+              setState({
+                shapeWidth: 1
+              })
+
             }}
           >
             <Line toolType={toolType} colorWidth={colorWidth} />
@@ -115,9 +119,28 @@ export default function Swatch({
             title="Rectangle"
             style={styles.righticons}
             onClick={() => {
-              setToolType("rectangle");
-              setWidth(1);
-              setShapeWidth(1);
+              
+              // setToolType("rectangle")
+              // setState({
+              //   toolType: "rectangle"
+              // })
+              boardState.toolType = "rectangle"
+
+
+              // setWidth(1)
+              // setState({
+              //   width: 1
+              // })
+              boardState.width = 1
+
+
+              // setShapeWidth(1)
+              // setState({
+              //   shapeWidth: 1
+              // })
+              boardState.shapeWidth = 1
+
+
             }}
           >
             <Rectangle toolType={toolType} colorWidth={colorWidth} />
@@ -153,7 +176,7 @@ export default function Swatch({
             <Triangle toolType={toolType} colorWidth={colorWidth} />
           </button>
 
-          <button
+          {/* <button
             id="pencil"
             data-toggle="tooltip"
             data-placement="top"
@@ -166,9 +189,9 @@ export default function Swatch({
             }}
           >
             <Pencil toolType={toolType} colorWidth={colorWidth} />
-          </button>
+          </button> */}
 
-          <button
+          {/* <button
             id="brush"
             data-toggle="tooltip"
             data-placement="top"
@@ -181,7 +204,7 @@ export default function Swatch({
             }}
           >
             <Brush toolType={toolType} colorWidth={colorWidth} />
-          </button>
+          </button> */}
 
           <button
             id="eraser"
@@ -203,7 +226,7 @@ export default function Swatch({
 
 
 
-            {/* VERTICAL BAR */}
+        {/* VERTICAL BAR */}
         <div className="col-md-11">
           <div
             className="row icon-vbar"
@@ -322,18 +345,15 @@ export default function Swatch({
           >
 
             <button>
-              NAME: 
+              NAME:
             </button>
 
             <button>
-              SHARING STATUS: 
+              SHARING STATUS:
             </button>
 
           </div>
         </div>
-
-
-
 
       </div>
     </div>

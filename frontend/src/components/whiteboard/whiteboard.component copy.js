@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Swatch from "../components/swatch";
+import Swatch from "../whiteboard/swatch";
 import rough from "roughjs/bundled/rough.esm";
 
 import {
@@ -9,9 +9,9 @@ import {
   resizedCoordinates,
   midPointBtw,
   getElementAtPosition,
-} from "../components/element";
+} from "../whiteboard/element";
 
-import ElementDataService from "../services/element.service"
+import ShapeDrawDataService from "../../services/element.service"
 
 
 
@@ -139,7 +139,7 @@ function Whiteboard() {
 
   const sentElementDataToServer = (elements) => {
     try {
-      const res = ElementDataService.create({ elements })
+      const res = ShapeDrawDataService.create({ elements })
 
       // dispatch({
       //   type: CREATE_CATEGORY,
