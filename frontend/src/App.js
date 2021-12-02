@@ -10,11 +10,8 @@ import Register from "./components/user/register.component";
 import Home from "./components/user/home.component";
 import Profile from "./components/user/profile.component";
 import BoardUser from "./components/user/board-user.component";
+import PlatformSelection from './components/user/platform-selection.component'
 import WhiteboardInitiator from "./components/whiteboard/whiteboard-initiator.component";
-
-
-// import BoardModerator from "./components/user/board-moderator.component";
-// import BoardAdmin from "./components/user/board-admin.component";
 
 class App extends Component {
   constructor(props) {
@@ -22,8 +19,6 @@ class App extends Component {
     this.logOut = this.logOut.bind(this);
 
     this.state = {
-      // showModeratorBoard: false,
-      // showAdminBoard: false,
       currentUser: undefined,
     };
   }
@@ -34,8 +29,6 @@ class App extends Component {
     if (user) {
       this.setState({
         currentUser: user,
-        // showModeratorBoard: user.roles.includes("ROLE_MODERATOR"),
-        // showAdminBoard: user.roles.includes("ROLE_ADMIN"),
       });
     }
   }
@@ -46,9 +39,7 @@ class App extends Component {
 
   render() {
     const { 
-      currentUser, 
-      // showModeratorBoard, 
-      // showAdminBoard 
+      currentUser
     } = this.state;
 
     return (
@@ -63,22 +54,6 @@ class App extends Component {
                 Home
               </Link>
             </li>
-
-            {/* {showModeratorBoard && (
-              <li className="nav-item">
-                <Link to={"/mod"} className="nav-link">
-                  Moderator Board
-                </Link>
-              </li>
-            )}
-
-            {showAdminBoard && (
-              <li className="nav-item">
-                <Link to={"/admin"} className="nav-link">
-                  Admin Board
-                </Link>
-              </li>
-            )} */}
 
             {currentUser && (
               <li className="nav-item">
@@ -96,6 +71,7 @@ class App extends Component {
                   {currentUser.username}
                 </Link>
               </li>
+
               <li className="nav-item">
                 <a href="/login" className="nav-link" onClick={this.logOut}>
                   LogOut
@@ -103,13 +79,18 @@ class App extends Component {
               </li>
 
               <li className="nav-item">
+                <Link to={"/platform-selection"} className="nav-link">
+                  Platform Selection
+                </Link>
+              </li>
+
+              <li className="nav-item">
                 <Link to={"/whiteboard"} className="nav-link">
                   Whiteboard
                 </Link>
               </li>
-            </div>
 
-            
+            </div>
           ) : (
             <div className="navbar-nav ml-auto">
               <li className="nav-item">
@@ -133,10 +114,8 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/profile" component={Profile} />
+            <Route exact path="/platform-selection" component={PlatformSelection} />
             <Route path="/user" component={BoardUser} />
-            {/* <Route path="/mod" component={BoardModerator} /> */}
-            {/* <Route path="/admin" component={BoardAdmin} /> */}
-
             <Route path="/whiteboard" component={WhiteboardInitiator} />
           </Switch>
         </div>

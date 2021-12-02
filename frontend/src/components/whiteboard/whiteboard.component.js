@@ -102,13 +102,14 @@ function Whiteboard() {
     });
 
 
-    if (!load) {
-      async function loadElementDataFromServer() {
-        const res = await ShapeDrawDataService.load()
-        setTest(res.data)
-        setElements((prevState) => [...prevState, res.data]);
-      }
-  
+    // GET the previously drawn elements
+    async function loadElementDataFromServer() {
+      const res = await ShapeDrawDataService.load()
+      setTest(res.data)
+      setElements((prevState) => [...prevState, res.data]);
+    }
+
+    if (!load) {  
       loadElementDataFromServer()
       setLoad(true)
     }
