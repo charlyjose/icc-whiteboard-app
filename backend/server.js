@@ -69,10 +69,10 @@ function initial() {
 
 require('./app/routes/auth.routes')(app)
 require('./app/routes/user.routes')(app)
-require('./app/routes/newTodo.routes')(app);
-require('./app/routes/newElement.routes')(app);
-require('./app/routes/whiteboard.routes')(app);
+require('./app/routes/drawing.routes')(app)
+require('./app/routes/whiteboard.routes')(app)
 
+// require('./app/routes/newTodo.routes')(app);
 // require("./app/routes")(app)
 
 

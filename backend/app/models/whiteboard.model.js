@@ -3,9 +3,9 @@ module.exports = mongoose => {
     "whiteboard",
     mongoose.Schema(
       {
-        boardId: String,
-        createdBy: String,
-        accessed: Array,
+        joinCode: String,
+        creatorId: String,
+        authorised: Array,
         data: Array
       },
       { timestamps: true }

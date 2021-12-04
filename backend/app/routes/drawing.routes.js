@@ -1,5 +1,5 @@
 const { authJwt } = require("../middlewares")
-const category = require("../controllers/category.controller")
+const drawing = require("../controllers/drawing.controller")
 
 module.exports = function (app) {
     app.use(function (req, res, next) {
@@ -10,7 +10,7 @@ module.exports = function (app) {
         next()
     })
 
-    app.post("/api/element/", [authJwt.verifyToken], category.create)
+    app.post("/api/whiteboard/drawing/create", [authJwt.verifyToken], drawing.create)
+    app.get("/api/whiteboard/drawing/load", [authJwt.verifyToken], drawing.load)
 
-    app.get("/api/element/load", [authJwt.verifyToken], category.load)
 }

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
+import Whiteboard from "./whiteboard.component";
 
 import UserService from "../../services/user.service";
 import AuthService from "../../services/auth.service";
-import Whiteboard from "./whiteboard.component";
-
+import WhiteboardDataService from "../../services/whiteboard/whiteboard.service";
 
 export default class WhiteboardInitiator extends Component {
   constructor(props) {
@@ -11,7 +11,8 @@ export default class WhiteboardInitiator extends Component {
 
     this.state = {
       content: "",
-      currentUser: AuthService.getCurrentUser()
+      currentUser: AuthService.getCurrentUser(),
+      whiteboardAuth: WhiteboardDataService.getCurrentWhiteboardAccess()
     }
   }
 
@@ -21,6 +22,8 @@ export default class WhiteboardInitiator extends Component {
         this.setState({
           content: response.data
         })
+
+
       },
       error => {
         this.setState({
@@ -38,7 +41,10 @@ export default class WhiteboardInitiator extends Component {
   render() {
     return (
       <div className="container">
-        {this.state.currentUser ? (
+        {console.log(this.state.whiteboardAuth)}
+        {console.log(this.state.currentUser)}
+
+        {this.state.currentUser && this.state.whiteboardAuth ? (
           <Whiteboard />
         ) : (
           <h3>DO NOT LOAD: {this.state.content}</h3>

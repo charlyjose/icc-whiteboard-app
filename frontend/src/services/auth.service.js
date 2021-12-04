@@ -13,13 +13,13 @@ class AuthService {
         if (response.data.accessToken) {
           localStorage.setItem("user", JSON.stringify(response.data));
         }
-
         return response.data;
       });
   }
 
   logout() {
     localStorage.removeItem("user");
+    localStorage.removeItem("whiteboard");
   }
 
   register(username, email, password) {

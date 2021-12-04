@@ -11,6 +11,9 @@ module.exports = function (app) {
     })
 
     app.post("/api/whiteboard/create", [authJwt.verifyToken], whiteboard.create)
+    app.post("/api/whiteboard/get/boardId/", [authJwt.verifyToken], whiteboard.findBoardId)
+    app.post("/api/whiteboard/authorize/user/", [authJwt.verifyToken], whiteboard.authorizeAccess)
+
     // app.get("/api/whiteboard/get/owned/joincode", [authJwt.verifyToken], whiteboard.findAllOwned)
     // app.delete("/api/whiteboard/delete/:id", [authJwt.verifyToken], whiteboard.delete)
     // app.delete("/api/whiteboard/delete/owned", [authJwt.verifyToken], whiteboard.deleteAllOwned)

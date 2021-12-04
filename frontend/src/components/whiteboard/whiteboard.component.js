@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import Swatch from "./swatch";
-import rough from "roughjs/bundled/rough.esm";
+import React, { useEffect, useState } from "react"
+import Swatch from "./swatch"
+import rough from "roughjs/bundled/rough.esm"
 
 import {
   createElement,
@@ -11,7 +11,7 @@ import {
   getElementAtPosition,
 } from "./element";
 
-import ShapeDrawDataService from "../../services/element.service"
+import DrawingDataService from "../../services/whiteboard/drawing.service"
 
 
 
@@ -35,7 +35,6 @@ function Whiteboard() {
 
   const [test, setTest] = useState(null)
   const [load, setLoad] = useState(false)
-
 
 
   // DRAWING state
@@ -104,7 +103,7 @@ function Whiteboard() {
 
     // GET the previously drawn elements
     async function loadElementDataFromServer() {
-      const res = await ShapeDrawDataService.load()
+      const res = await DrawingDataService.load()
       setTest(res.data)
       setElements((prevState) => [...prevState, res.data]);
     }
@@ -158,7 +157,7 @@ function Whiteboard() {
 
   const sentElementDataToServer = (elements) => {
     try {
-      const res = ShapeDrawDataService.create({ elements })
+      const res = DrawingDataService.create({ elements })
       return Promise.resolve(res.data)
     }
     catch (error) {
