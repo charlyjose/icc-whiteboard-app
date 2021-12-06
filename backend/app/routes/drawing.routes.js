@@ -6,11 +6,11 @@ module.exports = function (app) {
         res.header(
             "Access-Control-Allow-Headers",
             "x-access-token, Origin, Content-Type, Accept"
-        );
+        )
         next()
     })
 
     app.post("/api/whiteboard/drawing/create", [authJwt.verifyToken], drawing.create)
     app.get("/api/whiteboard/drawing/load", [authJwt.verifyToken], drawing.load)
-
+    // app.get("/api/whiteboard/drawing/sync", [authJwt.verifyToken], drawing.sync)
 }

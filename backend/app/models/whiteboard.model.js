@@ -5,8 +5,7 @@ module.exports = mongoose => {
       {
         joinCode: String,
         creatorId: String,
-        authorised: Array,
-        data: Array
+        authorised: Array
       },
       { timestamps: true }
     )

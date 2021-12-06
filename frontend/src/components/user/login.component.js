@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { InputGroup, FormControl, Form as Formy } from 'react-bootstrap';
+
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
@@ -11,9 +13,9 @@ const required = value => {
       <div className="alert alert-danger" role="alert">
         This field is required!
       </div>
-    );
+    )
   }
-};
+}
 
 export default class Login extends Component {
   constructor(props) {
@@ -26,20 +28,20 @@ export default class Login extends Component {
       username: "",
       password: "",
       loading: false,
-      message: ""
-    };
+      message: "",
+    }
   }
 
   onChangeUsername(e) {
     this.setState({
       username: e.target.value
-    });
+    })
   }
 
   onChangePassword(e) {
     this.setState({
       password: e.target.value
-    });
+    })
   }
 
   handleLogin(e) {
@@ -48,7 +50,7 @@ export default class Login extends Component {
     this.setState({
       message: "",
       loading: true
-    });
+    })
 
     this.form.validateAll();
 
@@ -76,16 +78,11 @@ export default class Login extends Component {
     } else {
       this.setState({
         loading: false
-      });
+      })
     }
   }
 
 
-
-
-
-
-  
   render() {
     return (
       <div className="col-md-12">
@@ -103,16 +100,30 @@ export default class Login extends Component {
             }}
           >
             <div className="form-group">
-              <label htmlFor="username">Username</label>
-              <Input
-                type="text"
-                className="form-control"
-                name="username"
-                value={this.state.username}
-                onChange={this.onChangeUsername}
-                validations={[required]}
-              />
+              {/* <label htmlFor="username">Username</label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    name="username"
+                    value={this.state.username}
+                    onChange={this.onChangeUsername}
+                    validations={[required]}
+                  /> */}
+
+              <InputGroup className="mb-3">
+                <InputGroup.Text id="inputGroup-sizing-default">Username</InputGroup.Text>
+                <FormControl
+                  aria-label="username"
+                  name="username"
+                  aria-describedby="inputGroup-sizing-default"
+                  defaultValue={this.state.username}
+                  onChange={this.onChangeUsername}
+                  required
+                />
+              </InputGroup>
+
             </div>
+
 
             <div className="form-group">
               <label htmlFor="password">Password</label>
@@ -125,6 +136,7 @@ export default class Login extends Component {
                 validations={[required]}
               />
             </div>
+
 
             <div className="form-group">
               <button
@@ -154,6 +166,6 @@ export default class Login extends Component {
           </Form>
         </div>
       </div>
-    );
+    )
   }
 }

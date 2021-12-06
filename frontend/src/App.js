@@ -9,9 +9,10 @@ import Login from "./components/user/login.component";
 import Register from "./components/user/register.component";
 import Home from "./components/user/home.component";
 import Profile from "./components/user/profile.component";
-import BoardUser from "./components/user/board-user.component";
 import PlatformSelection from './components/user/platform-selection.component'
+import PlatformAuthorisation from './components/user/platform-authorisation.component'
 import WhiteboardInitiator from "./components/whiteboard/whiteboard-initiator.component";
+
 
 class App extends Component {
   constructor(props) {
@@ -20,6 +21,7 @@ class App extends Component {
 
     this.state = {
       currentUser: undefined,
+      currentWhiteboard: undefined
     }
   }
 
@@ -29,7 +31,20 @@ class App extends Component {
     if (user) {
       this.setState({
         currentUser: user,
-      });
+      })
+    }
+
+    try {
+      var currentWhiteboard = JSON.parse(localStorage.getItem('currentWhiteboard'))
+      console.log('CURENT: ', currentWhiteboard)
+      this.setState({
+        currentWhiteboard: currentWhiteboard
+      })
+    }
+    catch {
+      this.setState({
+        currentWhiteboard: undefined
+      })
     }
   }
 
@@ -38,7 +53,7 @@ class App extends Component {
   }
 
   render() {
-    const { 
+    const {
       currentUser
     } = this.state;
 
@@ -55,13 +70,13 @@ class App extends Component {
               </Link>
             </li>
 
-            {currentUser && (
+            {/* {currentUser && (
               <li className="nav-item">
                 <Link to={"/user"} className="nav-link">
                   User
                 </Link>
               </li>
-            )}
+            )} */}
           </div>
 
           {currentUser ? (
@@ -74,7 +89,7 @@ class App extends Component {
 
               <li className="nav-item">
                 <a href="/login" className="nav-link" onClick={this.logOut}>
-                  LogOut
+                  Log Out
                 </a>
               </li>
 
@@ -85,8 +100,20 @@ class App extends Component {
               </li>
 
               <li className="nav-item">
+                <Link to={"/platform-authorisation"} className="nav-link">
+                  Platform Authorisation
+                </Link>
+              </li>
+
+              <li className="nav-item">
                 <Link to={"/whiteboard"} className="nav-link">
                   Whiteboard
+                </Link>
+              </li>
+
+              <li className="nav-item">
+                <Link to={"/whiteboard"} className="nav-link">
+                  { this.state.currentWhiteboard }
                 </Link>
               </li>
 
@@ -114,8 +141,9 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/profile" component={Profile} />
+            {/* <Route exact path="/profile" component={WhiteboardList} /> */}
             <Route exact path="/platform-selection" component={PlatformSelection} />
-            <Route path="/user" component={BoardUser} />
+            <Route exact path="/platform-authorisation" component={PlatformAuthorisation} />
             <Route path="/whiteboard" component={WhiteboardInitiator} />
           </Switch>
         </div>

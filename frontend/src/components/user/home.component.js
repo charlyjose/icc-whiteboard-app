@@ -8,7 +8,7 @@ export default class Home extends Component {
 
     this.state = {
       content: ""
-    };
+    }
   }
 
   componentDidMount() {
@@ -24,9 +24,9 @@ export default class Home extends Component {
             (error.response && error.response.data) ||
             error.message ||
             error.toString()
-        });
+        })
       }
-    );
+    )
   }
 
   render() {

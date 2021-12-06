@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
+
 import Whiteboard from "./whiteboard.component";
 
 import UserService from "../../services/user.service";
@@ -41,15 +43,12 @@ export default class WhiteboardInitiator extends Component {
   render() {
     return (
       <div className="container">
-        {console.log(this.state.whiteboardAuth)}
-        {console.log(this.state.currentUser)}
-
         {this.state.currentUser && this.state.whiteboardAuth ? (
           <Whiteboard />
         ) : (
-          <h3>DO NOT LOAD: {this.state.content}</h3>
+          <Redirect to="/profile" />
         )}
       </div>
-    );
+    )
   }
 }

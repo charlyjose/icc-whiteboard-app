@@ -1,7 +1,7 @@
 {
-  "name": "todoapp",
+  "name": "whiteboardapp",
   "version": "1.0.0",
-  "description": "Todo App",
+  "description": "Whiteboard App",
   "main": "server.js",
   "dependencies": {
     "bcryptjs": "^2.4.3",

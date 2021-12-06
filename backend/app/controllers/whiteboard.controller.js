@@ -2,6 +2,7 @@ var hri = require('human-readable-ids').hri
 const db = require("../models")
 const Whiteboard = db.whiteboard
 const User = db.user
+const Drawing = db.drawing
 
 module.exports = {
     create: async (req, res) => {
@@ -33,7 +34,26 @@ module.exports = {
                         joinCode: data.joinCode,
                         message: "Whiteboard created successfully"
                     }
-                    res.status(200).send(resp)
+
+                    const drawing = new Drawing({
+                        boardId: resp.boardId,
+                        data: []
+                    })
+                    // create drawing pad
+                    drawing.save(drawing)
+                        .then(data => {
+                            if (!data) {
+                                res.status(404).send({ message: "Error while creating the Drawing pad" })
+                            }
+                            else {
+                                res.status(200).send(resp)
+                            }
+                        })
+                        .catch(error => {
+                            res.status(500).send({
+                                message: error.message || "Some error occurred while creating the Drawing Pad"
+                            })
+                        })
                 }
             })
             .catch(error => {
@@ -51,7 +71,6 @@ module.exports = {
 
         Whiteboard.findOne(condition)
             .then(data => {
-                console.log(data)
                 if (!data) {
                     res.status(404).send({ message: "Could not find whiteboard with code " + joinCode })
                 }
@@ -61,7 +80,7 @@ module.exports = {
                         boardId: data._id,
                         ownership: (userId == data.creatorId),
                         authorised: authorised,
-                        message: authorised ? "Authorised" : "Not authorised" 
+                        message: authorised ? "Authorised" : "Not authorised"
                     }
                     res.status(200).send(resp)
                 }
@@ -73,9 +92,32 @@ module.exports = {
             })
     },
 
+    findAlljoinCode: async (req, res) => {
+        var userId = req.res.req.userId
 
+        Whiteboard.find({ creatorId: userId }, { joinCode: true, _id: false })
+            .then(data => {
+                if (!data) {
+                    res.status(404).send({ message: "Could not find whiteboards for the user" })
+                }
+                else {
+                    var sendD = []
+                    for (let i = 0; i < data.length; i++) {
+                        sendD.push(data[i].joinCode)
+                    }
+                    res.status(200).send(sendD)
+                }
+            })
+            .catch(error => {
+                res.status(500).send({
+                    message: error.message || "Cannot retrieve whiteboards for the user"
+                })
+            })
+    },
+
+    // Give access to a whiteboard for  a user
     authorizeAccess: async (req, res) => {
-        var boardId = req.body.boardId
+        var joinCode = req.body.joinCode
         var username = req.body.username
         var userId = req.res.req.userId
 
@@ -84,19 +126,23 @@ module.exports = {
                 User.findOne({ username: username })
                     .then(data1 => {
                         if (!data1) {
-                            res.status(404).send({ message: `User ${username} not found in database` })
+                            res.status(200).send({ message: `User ${username} not found in database` })
                         }
-                        else {
+                        else {                            
                             (userId == data1._id) ? (
-                                res.status(200).send({ message: "Action not necessary" })
+                                res.status(200).send({ 
+                                    status: false, 
+                                    message: "Action not necessary" 
+                                })                            
                             ) : (
                                 Whiteboard.updateOne(
-                                    { _id: boardId, creatorId: userId },
+                                    { joinCode: joinCode, creatorId: userId },
                                     { $addToSet: { authorised: data1._id } })
                                     .then(data => {
                                         var resp = {
                                             boardId: data._id,
-                                            message: data.modifiedCount ? "User authorised" : "Could not find whiteboard with Id " + boardId
+                                            status: data.modifiedCount ? true : false,
+                                            message: data.modifiedCount ? "User authorised" : "Not Authorised to perform task or Could not find whiteboard with Id " + boardId
                                         }
                                         res.status(200).send(resp)
                                     })
@@ -114,9 +160,17 @@ module.exports = {
                         })
                     })
             ) : (
-                res.status(404).send({ message: `User ${username} not found in database` })
+                res.status(200).send({ message: `User ${username} not found in database` })
             )
     },
+
+
+
+
+
+
+
+
 
     findAll: async (req, res) => {
         const title = req.query.title;

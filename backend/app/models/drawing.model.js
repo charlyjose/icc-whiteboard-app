@@ -1,11 +1,10 @@
 module.exports = mongoose => {
   const Todo = mongoose.model(
-    "draw",
+    "drawing",
     mongoose.Schema(
       {
-        title: String,
-        description: String,
-        published: Boolean
+        boardId: String,
+        data: Array
       },
       { timestamps: true }
     )
