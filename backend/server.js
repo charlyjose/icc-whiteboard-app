@@ -1,6 +1,9 @@
 const express = require("express")
 const bodyParser = require("body-parser")
 const cors = require("cors")
+const BE_PORT = require("./app/config/env.json").backend.port
+const FE_IP = require("./app/config/env.json").frontend.ip
+const FE_PORT = require("./app/config/env.json").frontend.port
 
 const app = express()
 
@@ -69,18 +72,15 @@ function initial() {
 
 require('./app/routes/auth.routes')(app)
 require('./app/routes/user.routes')(app)
-require('./app/routes/newTodo.routes')(app);
-require('./app/routes/newElement.routes')(app);
-require('./app/routes/whiteboard.routes')(app);
-
-// require("./app/routes")(app)
-
+require('./app/routes/drawing.routes')(app)
+require('./app/routes/whiteboard.routes')(app)
+require('./app/routes/syncDrawing.routes')(app)
 
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to WHITEBOARD Application" })
 })
 
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || BE_PORT
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
 })

@@ -141,36 +141,6 @@ export default function Swatch({
           </button>
 
           {/* <button
-            id="pencil"
-            data-toggle="tooltip"
-            data-placement="top"
-            title="Pencil"
-            style={styles.righticons}
-            onClick={() => {
-              setToolType("pencil");
-              setWidth(1);
-              setShapeWidth(1);
-            }}
-          >
-            <Pencil toolType={toolType} colorWidth={colorWidth} />
-          </button> */}
-
-          {/* <button
-            id="brush"
-            data-toggle="tooltip"
-            data-placement="top"
-            title="Brush"
-            style={styles.righticons}
-            onClick={() => {
-              setToolType("brush");
-              setWidth(10);
-              setShapeWidth(1);
-            }}
-          >
-            <Brush toolType={toolType} colorWidth={colorWidth} />
-          </button> */}
-
-          <button
             id="eraser"
             data-toggle="tooltip"
             data-placement="top"
@@ -183,140 +153,10 @@ export default function Swatch({
             }}
           >
             <Eraser toolType={toolType} colorWidth={colorWidth} />
-          </button>
-        </div>
+          </button> */}
 
 
 
-
-
-        {/* VERTICAL BAR */}
-        <div className="col-md-11">
-          <div
-            className="row icon-vbar"
-            style={{
-              position: "absolute",
-              backgroundColor: "#f0f0f0",
-              width:
-                window.innerWidth <= 1024
-                  ? `${window.innerWidth * 0.073 * 5.6}px`
-                  : `${window.innerWidth * 0.073 * 3.1}px`, // 4.79
-              height: `${window.innerHeight * 0.1}px`,
-              right: `${(window.innerWidth - window.innerWidth * 0.073 * 4.8) / 20
-                }px`,
-              top: "0px",
-              borderRadius: "10px",
-            }}
-          >
-            <button
-              style={styles.topicons}
-              data-toggle="tooltip"
-              data-placement="top"
-              title="Clear"
-              onClick={() => {
-                setElements([]);
-                setPath([]);
-                return;
-              }}
-            >
-              <Reset />
-            </button>
-
-
-
-            {/* <button
-              style={styles.topicons}
-              data-toggle="tooltip"
-              data-placement="top"
-              title="Download"
-            >
-              <a href="#" onClick={download}>
-                <Download />
-              </a>
-            </button> */}
-
-
-
-            {/* Colour Picker */}
-
-
-            {/* <div> */}
-            {/* <button
-                style={styles.picker}
-                onClick={handleClickStroke}
-              ></button> */}
-            {/* </div> */}
-
-
-
-
-
-            <button
-              style={styles.topicons}
-              onClick={increaseWidth}
-              data-toggle="tooltip"
-              data-placement="top"
-              title="Increase Width"
-            >
-              <Plus />
-            </button>
-            <button
-              style={styles.topicons}
-              onClick={decreaseWidth}
-              data-toggle="tooltip"
-              data-placement="top"
-              title="Decrease Width"
-            >
-              <Minus />
-            </button>
-          </div>
-
-
-          {/* <div
-            className="row"
-            style={{ position: "absolute", right: "0px", top: "0px" }}
-          >
-            {displayStroke && (
-              <div className="col-md-3">
-                <ColourPicker setColorWidth={setColorWidth} />
-              </div>
-            )}
-          </div> */}
-
-
-        </div>
-
-
-
-
-        {/* VERTICAL BAR 1 */}
-        <div className="col-md-11">
-          <div
-            className="row icon-vbar"
-            style={{
-              position: "absolute",
-              backgroundColor: "#f0f0f0",
-              width:
-                window.innerWidth <= 1024
-                  ? `${window.innerWidth * 0.073 * 5.6}px`
-                  : `${window.innerWidth * 0.073 * 2.1}px`,
-              height: `${window.innerHeight * 0.1}px`,
-              right: `${(window.innerWidth - window.innerWidth * 0.073 * 2.1)
-                }px`,
-              top: "0px",
-              borderRadius: "10px",
-            }}
-          >
-
-            <button>
-              NAME:
-            </button>
-
-            <button>
-              SHARING STATUS:
-            </button>
-
-          </div>
         </div>
 
       </div>

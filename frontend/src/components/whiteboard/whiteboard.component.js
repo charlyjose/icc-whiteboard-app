@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import Swatch from "./swatch";
-import rough from "roughjs/bundled/rough.esm";
+import React, { useEffect, useState } from "react"
+import Swatch from "./swatch"
+import rough from "roughjs/bundled/rough.esm"
 
 import {
   createElement,
@@ -9,11 +9,10 @@ import {
   resizedCoordinates,
   midPointBtw,
   getElementAtPosition,
-} from "./element";
+} from "./element"
 
-import ShapeDrawDataService from "../../services/element.service"
-
-
+import DrawingDataService from "../../services/whiteboard/drawing.service"
+import WhiteboardDataService from "../../services/whiteboard/whiteboard.service"
 
 function Whiteboard() {
   const [points, setPoints] = useState([]);
@@ -36,6 +35,9 @@ function Whiteboard() {
   const [test, setTest] = useState(null)
   const [load, setLoad] = useState(false)
 
+  const whiteboardId = WhiteboardDataService.getCurrentWhiteboardId()
+
+
 
 
   // DRAWING state
@@ -51,7 +53,32 @@ function Whiteboard() {
 
 
 
+
+
   useEffect(() => {
+
+    const intervalId = setInterval(() => {
+      var idList = [] 
+      elements.forEach(ele => idList.push(ele.id))
+
+      DrawingDataService.sync(whiteboardId, idList)
+        .then(data => {
+          console.log('SEV MSG: ', data.data.message)
+          if (data.data.drawing.length > 0) {
+            console.log('DATAAA INN')
+            setElements((prevState) => [...prevState, ...data.data.drawing])
+          }
+          else {
+            console.log('SERVER: ', data.data.message)
+          }
+        }
+        )
+        .catch(function (error) {
+          console.log(error)
+        })
+    }, 3000)
+
+
     const canvas = document.getElementById("canvas");
     const context = canvas.getContext("2d");
     context.lineCap = "round";
@@ -104,22 +131,49 @@ function Whiteboard() {
 
     // GET the previously drawn elements
     async function loadElementDataFromServer() {
-      const res = await ShapeDrawDataService.load()
-      setTest(res.data)
-      setElements((prevState) => [...prevState, res.data]);
+      const res = await DrawingDataService.load(whiteboardId)
+      console.log(res.data)
+
+      console.log(res.data.data)
+      console.log(res.data.message)
+
+      setTest(res.data.data)
+      if (res.data.data.length > 0) {
+        setElements((prevState) => [...prevState, ...res.data.data])
+      }
+      // setElements((prevState) => [...prevState, res.data.data]);
     }
 
-    if (!load) {  
+    if (!load) {
       loadElementDataFromServer()
       setLoad(true)
     }
 
 
 
+
+
+
+
     return () => {
-      context.clearRect(0, 0, canvas.width, canvas.height);
-    };
-  }, [popped, elements, path, width]);
+      context.clearRect(0, 0, canvas.width, canvas.height)
+
+      clearInterval(intervalId)
+    }
+  }, [popped, elements, path, width])
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   const updateElement = (
     index,
@@ -158,7 +212,7 @@ function Whiteboard() {
 
   const sentElementDataToServer = (elements) => {
     try {
-      const res = ShapeDrawDataService.create({ elements })
+      const res = DrawingDataService.create(whiteboardId, elements)
       return Promise.resolve(res.data)
     }
     catch (error) {
@@ -389,8 +443,8 @@ function Whiteboard() {
 
 
     }
-    setAction("none");
-  };
+    setAction("none")
+  }
 
   return (
     <div>
