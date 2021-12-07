@@ -75,7 +75,7 @@ gcloud init
 3. Run the cloud build command on terminal inside both the frontend and backend directories (direcotry in which Dockerfile is present) to build and push to your project's container registry.
 
 ```sh
-gcloud builds submit --tag gcr.io/<your-project-ID/image-name-you-want
+gcloud builds submit --tag gcr.io/<your-project-ID>/<image-name-you-want>
 ```
 
 4. Edit and run the deployment and service yaml files.
@@ -94,7 +94,7 @@ kubectl apply -f gke-service.yaml
 
 6. To find the IP address go to GCP console, Google Kubernetes Engine, Services and Ingress, click on the name of your service, scroll down and find the external endpoints.
 
-"<ip-address>:80" for frontend
-"<ip-address>:8080" for backend
+```<ip-address>:80``` for frontend
+```<ip-address>:8080``` for backend
 
-Click on <ip-address>:80 to see the live application
+Click on ```<ip-address>```:80 to see the live application
