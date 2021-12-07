@@ -6,6 +6,7 @@ const API_URL = `${BE_IP}:${BE_PORT}/api/auth/`
 
 class AuthService {
   login(username, password) {
+    console.log(API_URL);
     return axios
       .post(API_URL + "signin", {
         username,

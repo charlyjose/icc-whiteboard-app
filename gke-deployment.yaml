@@ -1,0 +1,43 @@
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "whiteboard-app"
+  namespace: "default"
+  labels:
+    app: "whiteboard-app"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: "whiteboard-app"
+  template:
+    metadata:
+      labels:
+        app: "whiteboard-app"
+    spec:
+      containers:
+      - name: "whiteboard-backend-sha256-1"
+        image: "gcr.io/pragmatic-armor-334222/whiteboard-backend@sha256:384b234c7f612e6019351d6cc6708819390b74e09c73b960ebeb0580d6d84091"
+      - name: "whiteboard-frontend-sha256-2"
+        image: "gcr.io/pragmatic-armor-334222/whiteboard-frontend@sha256:4b9ec57fe1643bca2cab35d74db874dd1250205bed2c7d97e022183a38757d60"
+---
+apiVersion: "autoscaling/v2beta1"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "whiteboard-app-hpa-cstl"
+  namespace: "default"
+  labels:
+    app: "whiteboard-app"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "whiteboard-app"
+    apiVersion: "apps/v1"
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: "Resource"
+    resource:
+      name: "cpu"
+      targetAverageUtilization: 80
