@@ -8,7 +8,7 @@ const FE_PORT = require("./app/config/env.json").frontend.port
 const app = express()
 
 var corsOptions = {
-    origin: `${FE_IP}:${FE_PORT}`
+    origin: "*"
 }
 
 app.use(cors(corsOptions))
